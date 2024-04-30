@@ -1,8 +1,8 @@
 import Description from './components/Description/Description';
 import Feedback from './components/Feedback/Feedback';
+import Notification from './components/Notification/Notification';
 import Options from './components/Options/Options';
 import { useState, useEffect } from 'react';
-import s from './App.module.css';
 
 function App() {
   const [points, setPoints] = useState(() => {
@@ -24,8 +24,7 @@ function App() {
   const updateFeedback = feedbackType => {
     setPoints(prev => {
       return { ...prev, [feedbackType]: prev[feedbackType] + 1 };
-    }),
-      [];
+    });
   };
 
   const handleReset = () => {
@@ -68,7 +67,7 @@ function App() {
           statistics={Object.entries(points)}
         />
       ) : (
-        <p className={s.noFeedback}>No feedback yet</p>
+        <Notification />
       )}
     </>
   );
