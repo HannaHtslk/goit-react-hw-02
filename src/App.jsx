@@ -1,32 +1,75 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
+import Description from './components/Description/Description';
+import Feedback from './components/Feedback/Feedback';
+import Options from './components/Options/Options';
+import { useState, useEffect } from 'react';
+import s from './App.module.css';
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [points, setPoints] = useState(() => {
+    const savedPoints = window.localStorage.getItem('saved-points');
+    if (savedPoints !== null) {
+      return JSON.parse(savedPoints);
+    }
+    return {
+      good: 0,
+      neutral: 0,
+      bad: 0,
+    };
+  });
+
+  useEffect(() => {
+    window.localStorage.setItem('saved-points', JSON.stringify(points));
+  }, [points]);
+
+  const updateFeedback = feedbackType => {
+    setPoints(prev => {
+      return { ...prev, [feedbackType]: prev[feedbackType] + 1 };
+    }),
+      [];
+  };
+
+  const handleReset = () => {
+    setPoints({
+      good: 0,
+      neutral: 0,
+      bad: 0,
+    });
+  };
+
+  const totalFeedback = () => {
+    return Object.values(points).reduce((acc, item) => {
+      return acc + item;
+    }, 0);
+  };
+  const total = totalFeedback();
+
+  const positiveFeedback = () => {
+    const goodCount = points.good;
+    if (total === 0) {
+      return 0;
+    }
+    return Math.round((goodCount / total) * 100);
+  };
+  const positive = positiveFeedback();
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount(count => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Description />
+      <Options
+        points={points}
+        onUpdate={updateFeedback}
+        onReset={handleReset}
+        total={total}
+      />
+      {total > 0 ? (
+        <Feedback
+          positive={positive}
+          total={total}
+          statistics={Object.entries(points)}
+        />
+      ) : (
+        <p className={s.noFeedback}>No feedback yet</p>
+      )}
     </>
   );
 }

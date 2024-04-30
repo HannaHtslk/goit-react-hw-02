@@ -1,0 +1,14 @@
+.container {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.title {
+  color: rgb(105, 105, 105);
+}
+
+.descr {
+  color: rgb(105, 105, 105);
+
+  font-size: 20px;
+}

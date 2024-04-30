@@ -1,0 +1,29 @@
+.list {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 25px;
+
+  max-width: 400px;
+  height: auto;
+
+  list-style-type: none;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.btn {
+  border: none;
+  cursor: pointer;
+
+  border-radius: 6px;
+  padding: 10px 15px;
+  background-color: rgb(216, 216, 243);
+  color: rgb(105, 105, 105);
+  transition: transform 250ms ease-in-out;
+}
+.btn:hover,
+.btn:focus {
+  background-color: rgb(200, 162, 200);
+  transform: scale(1.1);
+}
