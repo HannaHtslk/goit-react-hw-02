@@ -1,8 +1,5 @@
-import Description from './components/Description/Description';
-import Feedback from './components/Feedback/Feedback';
-import Notification from './components/Notification/Notification';
-import Options from './components/Options/Options';
 import { useState, useEffect } from 'react';
+import { Description, Feedback, Notification, Options } from './components';
 
 function App() {
   const [points, setPoints] = useState(() => {
@@ -44,7 +41,7 @@ function App() {
 
   const positiveFeedback = () => {
     const goodCount = points.good;
-    if (total === 0) {
+    if (!total) {
       return 0;
     }
     return Math.round((goodCount / total) * 100);
@@ -60,7 +57,7 @@ function App() {
         onReset={handleReset}
         total={total}
       />
-      {total > 0 ? (
+      {total ? (
         <Feedback
           positive={positive}
           total={total}
